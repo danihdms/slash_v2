@@ -12,17 +12,6 @@ int cd_l_option(char **args, char *cwd, char *pwd, char *dest, char *option)
         char tmp[PATH_MAX];
 
         len = strlen_double(args);
-        strcpy(dest, args[len - 1]);
-        if (dest[0] == '-')
-        {
-                strcpy(tmp, cwd);
-                strcpy(cwd, owd);
-                strcpy(owd, tmp);
-                if (!(ret = chdir(cwd)))
-                        return (1);
-                else
-                        return (0);
-        }
         strcpy(owd, cwd);
         if (!strcmp(option, "") && len == 1)
         {
@@ -38,6 +27,18 @@ int cd_l_option(char **args, char *cwd, char *pwd, char *dest, char *option)
                         return (ret);
                 }
         }
+        strcpy(dest, args[len - 1]);
+        if (dest[0] == '-')
+        {
+                strcpy(tmp, cwd);
+                strcpy(cwd, owd);
+                strcpy(owd, tmp);
+                if (!(ret = chdir(cwd)))
+                        return (1);
+                else
+                        return (0);
+        }
+
         while (strlen(dest))
         {
                 if (is_double_points(dest))
@@ -45,8 +46,6 @@ int cd_l_option(char **args, char *cwd, char *pwd, char *dest, char *option)
                         strtrim_back('/', cwd);
                         strtrim_front('/', dest);
                 }
-                else if (dest[0] == '.')
-                        strtrim_front('/', dest);
                 else
                 {
                         sub = substr('/', dest);
@@ -64,15 +63,13 @@ int cd(char **args, char *cwd, char *pwd, char *dest)
 {
         char *option;
         int ret;
-        int len;
 
-        len = strlen_double(args);
         if (!(option = valid_command(&args[1])))
         {
                 write(2, "Invalid input.\nCorrect format: 'cd [-P | -L] [ref | -]'\nDoes the directory exist ?\n", 84);
                 return (1);
         }
-        if (!strcmp(option, "-P") || args[len - 1][0] == '/')
+        if (!strcmp(option, "-P"))
         {
                 if (!(ret = chdir(dest)))
                 {

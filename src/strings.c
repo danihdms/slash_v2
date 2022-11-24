@@ -147,7 +147,9 @@ char    *valid_command(char **args)
                         return (NULL);    
         }    
         if (args[i] && strlen_double(&args[i]) != 1)    
-                return (NULL);    
+                return (NULL);
+        if (args[i] && !strcmp(args[i], "-"))
+                return (option);
         if (chdir(args[i]) < 0 && strlen_double(args) > 0)
                 return (NULL);
         return (option);    
