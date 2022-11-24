@@ -81,5 +81,7 @@ void update_prompt(char *pr, char *cwd) {
             "$ "
     );
     strcpy(pr, tmp);
+    free(st);
+    free(path);
     free(tmp);
 }

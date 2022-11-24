@@ -43,8 +43,8 @@ int     main()
         args = bigfree(args);
     }
 
-    if (!line) free(line);
-    if (!args) bigfree(args);
+    free(line);
+    bigfree(args);
 
     return (status);
 }

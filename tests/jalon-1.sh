@@ -40,4 +40,3 @@ if ! cd "$AUTOTEST_DIR"; then
   exit 1
 fi
 
-exec bash ./autotests.sh
